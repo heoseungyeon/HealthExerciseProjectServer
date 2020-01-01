@@ -14,8 +14,8 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/parkwoojin/Downloads/mysql-connector-java-8.0.18/mysql-connector-java-8.0.18/mysql-connector-java-8.0.18.jar"/>
-	<classpathentry kind="lib" path="C:/Users/parkwoojin/Downloads/gson-2.8.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/parkwoojin/Desktop/java-json.jar/java-json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/USER/Downloads/mysql-connector-java-8.0.18/mysql-connector-java-8.0.18/mysql-connector-java-8.0.18.jar"/>
+	<classpathentry kind="lib" path="C:/Users/USER/Downloads/gson-2.8.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/USER/Downloads/java-json.jar/java-json.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

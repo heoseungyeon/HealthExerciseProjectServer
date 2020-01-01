@@ -11,7 +11,7 @@ public class DBConnection {
 		Connection conn = null;
 		try {
 			String user = "root"; 	
-			String pw = "0242";
+			String pw = "0312";
 			String url = "jdbc:mysql://localhost:3306/project?serverTimezone=Asia/Seoul&characterEncoding=utf8";
 
 			conn = DriverManager.getConnection(url, user, pw);

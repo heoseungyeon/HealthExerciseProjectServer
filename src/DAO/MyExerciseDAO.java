@@ -49,7 +49,7 @@ public class MyExerciseDAO {
       return jsonArray;
    }
 
-   public String insertMyExercise(JSONObject exercise) throws ClassNotFoundException, ParseException {
+   public String insertMyExercise(String exercise) throws ClassNotFoundException, ParseException {
       Connection conn = null;
       PreparedStatement pstmt = null;
       ResultSet rs = null;
@@ -58,12 +58,12 @@ public class MyExerciseDAO {
       try {
          conn = DBConnection.getConnection();
 
-         String sql = "insert INTO my_exercise(user_no, health_name)" + "values (?, ?)";
+         String sql = "insert INTO my_exercise(health_name)" + "values (?)";
 
          pstmt = conn.prepareStatement(sql);
 
-         pstmt.setString(1, (exercise.get("no")).toString());
-         pstmt.setString(2, (exercise.get("name")).toString());
+         pstmt.setString(1, exercise.toString());
+ 
 
          pstmt.executeUpdate();
 
