@@ -118,6 +118,7 @@ public class MyExerciseDAO {
             rst = "fail";
          }
       }
+      System.out.println(rst);
       return rst;
    }
 
@@ -172,6 +173,51 @@ public class MyExerciseDAO {
          return jsonArray;
       }
    }
-   
+   public JSONObject updateDayAndTime(String user_id) {
+	      Connection conn = null;
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      String rst = "success";
+	      JSONObject jsonObject = new JSONObject();
+	      
+	      try {
+	         conn = DBConnection.getConnection();
+
+	         String sql1 = "select user_total_day from user where user_id = ?";
+	         String sql2 = "select user_total_time from user where user_id = ?";
+	         
+	         pstmt = conn.prepareStatement(sql1);
+	         pstmt.setString(1, user_id);
+	         rs = pstmt.executeQuery();
+	         if (rs.next()) {
+	            jsonObject.put("user_total_day", rs.getString("user_total_day"));            
+	         }
+
+	         pstmt = conn.prepareStatement(sql2);
+	         pstmt.setString(1, user_id);
+	         rs = pstmt.executeQuery();
+	         if (rs.next()) {
+	            jsonObject.put("user_total_time", rs.getString("user_total_time"));
+	         }
+
+	      } catch (SQLException sqle) {
+	         System.out.println("sql err : " + sqle.getMessage());
+	         rst = sqle.getMessage();
+	      } finally {
+	         try {
+	            if (pstmt != null)
+	               pstmt.close();
+	            if (conn != null)
+	               conn.close();
+	            if (rs != null)
+	               rs.close();
+	         } catch (Exception e) {
+	            System.out.println(e.getMessage());
+	            rst = "fail";
+	         }
+	         System.out.println("DAO jsonObject " + jsonObject);
+	         return jsonObject;
+	      }
+   }
 
 }
