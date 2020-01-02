@@ -9,8 +9,10 @@
 	
   	System.out.println("get_param : " + get_param);
    	JSONParser parser = new JSONParser();
+   	Object obj = parser.parse(get_param);
+   	JSONObject jsonObj = (JSONObject)obj;
    	MyExerciseDAO myexerciseDAO = new MyExerciseDAO();
-   	String rst = myexerciseDAO.insertMyExercise(get_param);
+   	String rst = myexerciseDAO.insertMyExercise(jsonObj);
    	
    	//더미 값 일단 출력
    	out.println(rst);

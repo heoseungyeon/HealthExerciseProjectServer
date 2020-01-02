@@ -5,10 +5,12 @@
 <%@ page import="DAO.MyExerciseDAO"%>
 <%
 	request.setCharacterEncoding("UTF-8");
-	String deleteExerciseName = (String) request.getParameter("deleteExerciseName");
-	out.println(deleteExerciseName);
+	String get_param = (String) request.getParameter("DeleteData");
+	System.out.println("get_param : " + get_param);
+	JSONParser parser = new JSONParser();
+	Object obj = parser.parse(get_param);
+	JSONObject jsonObj = (JSONObject) obj;
 	MyExerciseDAO myExerciseDAO = new MyExerciseDAO();
-	String rst = myExerciseDAO.deleteMyExercise(deleteExerciseName);
+	String rst = myExerciseDAO.deleteMyExercise(jsonObj);
 	out.println(rst);
-	
 %>

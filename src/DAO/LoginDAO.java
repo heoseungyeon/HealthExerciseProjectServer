@@ -10,47 +10,45 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 public class LoginDAO {
-   String id;
-   String pw;
+	@SuppressWarnings("unchecked")
+	public String loginUser(JSONObject registUser) throws ClassNotFoundException {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String rst = "NOTFOUND";
+		String id;
+		String pw;
 
-   JSONArray loginCheckArray = new JSONArray();
-   public JSONArray checkID(JSONObject loginObject) throws ClassNotFoundException, ParseException {
-      Connection conn = null;
-      PreparedStatement pstmt = null;
-      ResultSet rs = null;
+		conn = DBConnection.getConnection();
 
-      try {
-         conn = DBConnection.getConnection();
+		String sql = "select user_id,user_pw from user " + "where user_id = ? AND user_pw =  ? ";
 
-         String sql = "select user_id from user where user_id = ? && user_pw = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, (registUser.get("user_id")).toString());
+			pstmt.setString(2, (registUser.get("user_pw")).toString());
 
-         pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
 
-         pstmt.setString(1, (loginObject.get("user_id")).toString());
-         pstmt.setString(2, (loginObject.get("user_pw")).toString());
+			while (rs.next()) { // Position the cursor 4
+				id = rs.getString(1);
+				pw = rs.getString(2);
+				if (id.equals(registUser.get("user_id").toString()) && pw.equals(registUser.get("user_pw").toString())) {
+					rst = "success";
+				}
+			}
+			rs.close(); // Close the ResultSet 5
+			pstmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			rst = "fail";
+		}
 
-         rs = pstmt.executeQuery();
-         if (rs.next()) {
-            loginObject.put("check", rs.getString("check"));
-            loginCheckArray.add(loginObject);
+		
 
-         }
-
-      } catch (SQLException sqle) {
-         System.out.println("sql err : " + sqle.getMessage());
-         sqle.printStackTrace();
-      } finally {
-         try {
-            if (pstmt != null)
-               pstmt.close();
-            if (conn != null)
-               conn.close();
-            if (rs != null)
-               rs.close();
-         } catch (Exception e) {
-            System.out.println(e.getMessage());
-         }
-      }
-      return loginCheckArray;
-   }
+		System.out.println(rst);
+		return rst;
+	}
 }

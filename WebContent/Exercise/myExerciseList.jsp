@@ -6,7 +6,10 @@
 <%
 try{
 	MyExerciseDAO myexercise = new MyExerciseDAO();
-	JSONArray list = myexercise.selectMyExerciseList();
+	String get_param = request.getParameter("user");
+	
+  	System.out.println("get_param : " + get_param);
+	JSONArray list = myexercise.selectMyExerciseList(get_param);
 	out.println(list.toString());
 } catch(Exception e) {
 }

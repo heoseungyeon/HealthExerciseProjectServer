@@ -5,10 +5,9 @@
 
 <%
    request.setCharacterEncoding("UTF-8");
-      String user_id = (String) request.getParameter("user_id");
-   
+	String get_param = request.getParameter("ID");   
 
    MyExerciseDAO myExercise = new MyExerciseDAO();
-   JSONObject obj = myExercise.updateDayAndTime(user_id);
+   JSONObject obj = myExercise.updateDayAndTime(get_param);
    out.println(obj.toString());
 %>

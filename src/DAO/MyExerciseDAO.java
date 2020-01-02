@@ -12,21 +12,22 @@ import org.json.simple.parser.ParseException;
 public class MyExerciseDAO {
 
    @SuppressWarnings("unchecked")
-   public JSONArray selectMyExerciseList() throws ClassNotFoundException {
+   public JSONArray selectMyExerciseList(String id) throws ClassNotFoundException {
       Connection conn = null;
       PreparedStatement pstmt = null;
       ResultSet rs = null;
       JSONArray jsonArray = new JSONArray();
-
+      System.out.println(id);
       try {
-         String sql = "select * from my_exercise";
+         String sql = "select * from my_exercise where user_id =?";
 
          conn = DBConnection.getConnection();
          pstmt = conn.prepareStatement(sql);
+         pstmt.setString(1,id);
          rs = pstmt.executeQuery();
          while (rs.next()) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("no", rs.getString("user_no"));
+            jsonObject.put("no", rs.getString("my_exercise_no"));
             jsonObject.put("name", rs.getString("health_name"));
             jsonArray.add(jsonObject);
             jsonObject = null;
@@ -49,7 +50,7 @@ public class MyExerciseDAO {
       return jsonArray;
    }
 
-   public String insertMyExercise(String exercise) throws ClassNotFoundException, ParseException {
+   public String insertMyExercise(JSONObject exercise) throws ClassNotFoundException, ParseException {
       Connection conn = null;
       PreparedStatement pstmt = null;
       ResultSet rs = null;
@@ -58,11 +59,12 @@ public class MyExerciseDAO {
       try {
          conn = DBConnection.getConnection();
 
-         String sql = "insert INTO my_exercise(health_name)" + "values (?)";
+         String sql = "insert INTO my_exercise(health_name, user_id)" + "values ( ? , ? )";
 
          pstmt = conn.prepareStatement(sql);
 
-         pstmt.setString(1, exercise.toString());
+         pstmt.setString(1, exercise.get("health_name").toString());
+         pstmt.setString(2, exercise.get("user_id").toString());
  
 
          pstmt.executeUpdate();
@@ -86,7 +88,7 @@ public class MyExerciseDAO {
       return rst;
    }
 
-   public String deleteMyExercise(String deleteExerciseName) throws ClassNotFoundException, ParseException {
+   public String deleteMyExercise(JSONObject deleteData) throws ClassNotFoundException, ParseException {
       Connection conn = null;
       PreparedStatement pstmt = null;
       ResultSet rs = null;
@@ -95,10 +97,11 @@ public class MyExerciseDAO {
       try {
          conn = DBConnection.getConnection();
 
-         String sql = "Delete from my_exercise where health_name = ?";
+         String sql = "Delete from my_exercise where health_name = ? AND user_id = ? ";
          pstmt = conn.prepareStatement(sql);
 
-         pstmt.setString(1, deleteExerciseName); // (exercise.get("name")).toString());
+         pstmt.setString(1, deleteData.get("health_name").toString()); 
+         pstmt.setString(2, deleteData.get("user_id").toString()); 
 
          pstmt.executeUpdate();
 
