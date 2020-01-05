@@ -9,21 +9,24 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-public class ExerciseDAO {
+public class ExerciseDAO { // Exercise 테이블에 접근하는 클래스 
 	
    @SuppressWarnings("unchecked")
-   public JSONArray selectExerciseList() throws ClassNotFoundException {
+   // Exercise테이블의 모든 내용 검색하여 JSONArray형태로 반환하는 Method
+   public JSONArray selectExerciseList() throws ClassNotFoundException { 
       Connection conn = null;
       PreparedStatement pstmt = null;
       ResultSet rs = null;
       JSONArray jsonArray = new JSONArray();
 
       try {
+    	 //SQL Query
          String sql = "select * from exercise";
 
          conn = DBConnection.getConnection();
          pstmt = conn.prepareStatement(sql);
          rs = pstmt.executeQuery();
+         //각각 jsonObject에 넣고 jsonArray에 담음
          while (rs.next()) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("no", rs.getString("health_no"));
@@ -53,6 +56,7 @@ public class ExerciseDAO {
       return jsonArray;
    }
    
+   // Exercise테이블에 데이터를 입력하고 성공여부를 반환하는 Method 
    public String insertExercise(JSONObject exercise) throws ClassNotFoundException, ParseException {
       Connection conn = null;
       PreparedStatement pstmt = null;
@@ -61,12 +65,12 @@ public class ExerciseDAO {
 
       try {
          conn = DBConnection.getConnection();
-
+         	// insert SQL Query
             String sql = "insert INTO exercise(health_no, health_name, health_detail, health_kind, health_kind_detail)"
                   + "values (?, ?, ?, ?, ?)";
 
             pstmt = conn.prepareStatement(sql);
-
+            
             pstmt.setString(1, (exercise.get("no")).toString());
             pstmt.setString(2, (exercise.get("name")).toString());
             pstmt.setString(3, (exercise.get("detail")).toString());

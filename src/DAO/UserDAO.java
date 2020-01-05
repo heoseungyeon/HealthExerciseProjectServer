@@ -8,11 +8,10 @@ import java.sql.SQLException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-
+//운동 시 user 테이블에 접근하는 클래스 
 public class UserDAO {
    
-   
-   
+   // 운동 종료 시 user 테이블의 운동 총 시간과 총 날짜를 갱신 시켜주는 Method
    public String updateUserData(JSONObject user_data) throws ClassNotFoundException, ParseException {
       Connection conn = null;
       PreparedStatement pstmt = null;

@@ -10,9 +10,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+//회원가입 시 user 테이블에 접근하는 클래스
 public class RegistDAO {
 
 	@SuppressWarnings("unchecked")
+	//유저 데이터를 전달받아 회원 가입하는 Method user_id는 DBMS로부터 중복확인이 됨(Unique Key)
 	public String registUser(JSONObject registUser) throws ClassNotFoundException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -21,7 +23,7 @@ public class RegistDAO {
 
 		try {
 			conn = DBConnection.getConnection();
-
+			// insert Query
 			String sql = "insert INTO user(user_id, user_pw,user_total_day,user_total_time)"
 					+ "values (?, ?, 0, 0)";
 

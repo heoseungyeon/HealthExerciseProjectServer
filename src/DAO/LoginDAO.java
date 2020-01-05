@@ -8,9 +8,10 @@ import java.sql.SQLException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
-
+//Login 관련하여 User 테이블에 접근하는 클래스 
 public class LoginDAO {
 	@SuppressWarnings("unchecked")
+	//등록 유저 데이터를 받아 id와 pw 일치여부를 확인하고 성공여부를 반환하는  Method 
 	public String loginUser(JSONObject registUser) throws ClassNotFoundException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -20,7 +21,7 @@ public class LoginDAO {
 		String pw;
 
 		conn = DBConnection.getConnection();
-
+		//select SQL Query ( id,pw를 조건문으로 하여 검색 함 ) 
 		String sql = "select user_id,user_pw from user " + "where user_id = ? AND user_pw =  ? ";
 
 		try {
@@ -31,14 +32,15 @@ public class LoginDAO {
 
 			rs = pstmt.executeQuery();
 
-			while (rs.next()) { // Position the cursor 4
+			// 일치하는 아이디 및 패스워드를 확인함 . 없으면 "fail"
+			while (rs.next()) { 
 				id = rs.getString(1);
 				pw = rs.getString(2);
 				if (id.equals(registUser.get("user_id").toString()) && pw.equals(registUser.get("user_pw").toString())) {
 					rst = "success";
 				}
 			}
-			rs.close(); // Close the ResultSet 5
+			rs.close(); 
 			pstmt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -5,6 +5,7 @@
 <%@page import="org.json.simple.JSONArray"%>
 <%
 try{
+	//selectExerciseList()함수를 통해 Exercise 테이블 전체 내용을 출력
 	ExerciseDAO exercise = new ExerciseDAO();
 	JSONArray list = exercise.selectExerciseList();
 	out.println(list.toString());

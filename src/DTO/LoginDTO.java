@@ -1,5 +1,6 @@
 package DTO;
 
+//Login시 user테이블에 대한 데이터 DTO
 public class LoginDTO {
    private String id;
    private String pw;
